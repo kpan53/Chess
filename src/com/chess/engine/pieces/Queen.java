@@ -16,7 +16,11 @@ public class Queen extends Piece {
     private final static int[] CANDIDATE_MOVE_VECTOR_COORDINATES = {-9, -8, -7, -1, 1, 7, 8, 9};
 
     public Queen(final Alliance pieceAlliance, final int piecePosition) {
-        super(PieceType.QUEEN,piecePosition, pieceAlliance);
+        super(PieceType.QUEEN,piecePosition, pieceAlliance, true);
+    }
+
+    public Queen(final Alliance pieceAlliance, final int piecePosition, final boolean isFirstMove) {
+        super(PieceType.QUEEN,piecePosition, pieceAlliance, isFirstMove);
     }
 
     @Override
@@ -47,7 +51,7 @@ public class Queen extends Piece {
                         final Alliance pieceAlliance = pieceAtDestination.getPieceAlliance();
 
                         if (this.pieceAlliance != pieceAlliance) {
-                            legalMoves.add(new Move.AttackMove(board, this, candidateDestinationCoordinate, pieceAtDestination)); //If the occupied spot is not your piece you can take it and therefore is a legal move
+                            legalMoves.add(new Move.MajorAttackMove(board, this, candidateDestinationCoordinate, pieceAtDestination)); //If the occupied spot is not your piece you can take it and therefore is a legal move
                         }
                         break; //If the bishop runs into any piece it can't move any further in that direction so you can break out of the loop
                     }

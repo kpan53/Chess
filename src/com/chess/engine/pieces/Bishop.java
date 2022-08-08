@@ -18,7 +18,13 @@ public class Bishop extends Piece{
     private final static int[] CANDIDATE_MOVE_VECTOR_COORDINATES = {-9,-7,7,9};
 
     public Bishop(final Alliance pieceAlliance, final int piecePosition) {
-        super(PieceType.BISHOP,piecePosition, pieceAlliance);
+        super(PieceType.BISHOP,piecePosition, pieceAlliance, true);
+    }
+
+    public Bishop(final Alliance pieceAlliance,
+                final int piecePosition,
+                final boolean isFirstMove){
+        super(PieceType.BISHOP, piecePosition, pieceAlliance, isFirstMove);
     }
 
     @Override
@@ -54,7 +60,7 @@ public class Bishop extends Piece{
                         final Alliance pieceAlliance = pieceAtDestination.getPieceAlliance();
 
                         if (this.pieceAlliance != pieceAlliance) {
-                            legalMoves.add(new AttackMove(board, this, candidateDestinationCoordinate, pieceAtDestination)); //If the occupied spot is not your piece you can take it and therefore is a legal move
+                            legalMoves.add(new MajorAttackMove(board, this, candidateDestinationCoordinate, pieceAtDestination)); //If the occupied spot is not your piece you can take it and therefore is a legal move
                         }
                         break; //If the bishop runs into any piece it can't move any further in that direction so you can break out of the loop
                     }

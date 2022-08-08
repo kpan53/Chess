@@ -18,7 +18,11 @@ public class King extends Piece{
     private final static int[] CANDIDATE_MOVE_COORDINATE = {-9,-8,-7,-1,1,7,8,9};
 
     public King(final Alliance pieceAlliance, final int piecePosition) {
-        super(PieceType.KING, piecePosition, pieceAlliance);
+        super(PieceType.KING, piecePosition, pieceAlliance, true);
+    }
+
+    public King(final Alliance pieceAlliance, final int piecePosition, final boolean isFirstMove) {
+        super(PieceType.KING, piecePosition, pieceAlliance, isFirstMove);
     }
 
     @Override
@@ -27,11 +31,10 @@ public class King extends Piece{
         final List<Move> legalMoves = new ArrayList<>();
 
         for (final int currentCandidateOffset: CANDIDATE_MOVE_COORDINATE){
-            final int candidateDestinationCoordinate = this.piecePosition + currentCandidateOffset;
-
-            if (isFirstColumnExclusion(this.piecePosition, currentCandidateOffset) || isEighthColumnExclusion(this.piecePosition,currentCandidateOffset)){
+                        if (isFirstColumnExclusion(this.piecePosition, currentCandidateOffset) || isEighthColumnExclusion(this.piecePosition,currentCandidateOffset)){
                 continue;
             }
+            final int candidateDestinationCoordinate = this.piecePosition + currentCandidateOffset;
 
             if (BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)){
                 final Tile candidateDestinationTile = board.getTile(candidateDestinationCoordinate);
@@ -42,7 +45,7 @@ public class King extends Piece{
                     final Alliance pieceAlliance = pieceAtDestination.getPieceAlliance();
 
                     if (this.pieceAlliance != pieceAlliance) {
-                        legalMoves.add(new AttackMove(board, this, candidateDestinationCoordinate, pieceAtDestination)); //If the occupied spot is not your piece you can take it and therefore is a legal move
+                        legalMoves.add(new MajorAttackMove(board, this, candidateDestinationCoordinate, pieceAtDestination)); //If the occupied spot is not your piece you can take it and therefore is a legal move
                     }
                 }
             }
